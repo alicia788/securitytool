@@ -1,0 +1,30 @@
+import socket
+
+target = "127.0.0.1"  # Specify the target IP address
+min_port = 1  # Specify the minimum port number to scan
+max_port = 65535  # Specify the maximum port number to scan
+
+# Function to check if a port is open
+def check_port(target, port):
+    try:
+        # Create a socket object
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # Set a timeout value for the connection attempt
+        sock.settimeout(1)
+        # Attempt to connect to the target IP and port
+        result = sock.connect_ex((target, port))
+        if result == 0:
+            print(f"Port {port} is open")
+        # Close the socket connection
+        sock.close()
+    except socket.error:
+        pass
+
+# Main port scanning function
+def port_scan(target, min_port, max_port):
+    print(f"Scanning {target} for open ports...")
+    for port in range(min_port, max_port + 1):
+        check_port(target, port)
+
+# Run the port scanning function
+port_scan(target, min_port, max_port)
