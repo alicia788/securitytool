@@ -1,0 +1,39 @@
+import PyPDF2
+
+def extract_pdf_metadata(filepath):
+    try:
+        # Open the PDF file in read-binary mode
+        with open(filepath, 'rb') as file:
+            # Create a PDF reader object
+            reader = PyPDF2.PdfReader(file)
+
+            # Get the document information dictionary
+            doc_info = reader.getDocumentInfo()
+
+            # Extract the metadata
+            title = doc_info.title if doc_info.title else 'N/A'
+            author = doc_info.author if doc_info.author else 'N/A'
+            subject = doc_info.subject if doc_info.subject else 'N/A'
+            keywords = doc_info.keywords if doc_info.keywords else 'N/A'
+            created_date = doc_info.created.strftime("%Y-%m-%d %H:%M:%S") if doc_info.created else 'N/A'
+            modified_date = doc_info.modified.strftime("%Y-%m-%d %H:%M:%S") if doc_info.modified else 'N/A'
+
+            # Print the extracted metadata
+            print("PDF Metadata:")
+            print("Title:", title)
+            print("Author:", author)
+            print("Subject:", subject)
+            print("Keywords:", keywords)
+            print("Created Date:", created_date)
+            print("Modified Date:", modified_date)
+
+    except FileNotFoundError:
+        print("File not found.")
+    except PyPDF2.utils.PdfReadError:
+        print("Invalid or corrupted PDF file.")
+
+# Provide the filepath of the PDF file
+pdf_filepath = "example.pdf"
+
+# Call the function to extract PDF metadata
+extract_pdf_metadata(pdf_filepath)
